@@ -1,0 +1,78 @@
+{
+  "Records": [
+    {
+      "eventTime": "2026-07-10T01:12:44Z",
+      "eventName": "GetCallerIdentity",
+      "eventSource": "sts.amazonaws.com",
+      "userIdentity": {
+        "type": "IAMUser",
+        "userName": "medvitals-backup-user",
+        "arn": "arn:aws:iam::123456789012:user/medvitals-backup-user"
+      },
+      "sourceIPAddress": "91.108.56.177",
+      "userAgent": "Boto3/1.26.0 Python/3.10.0",
+      "requestParameters": null,
+      "responseElements": {
+        "userId": "AIDABACKUPEXAMPLE99",
+        "account": "123456789012",
+        "arn": "arn:aws:iam::123456789012:user/medvitals-backup-user"
+      }
+    },
+    {
+      "eventTime": "2026-07-10T01:14:09Z",
+      "eventName": "DescribeInstances",
+      "eventSource": "ec2.amazonaws.com",
+      "userIdentity": {
+        "type": "IAMUser",
+        "userName": "medvitals-backup-user",
+        "arn": "arn:aws:iam::123456789012:user/medvitals-backup-user"
+      },
+      "sourceIPAddress": "91.108.56.177",
+      "userAgent": "Boto3/1.26.0 Python/3.10.0",
+      "requestParameters": {
+        "filterSet": {}
+      },
+      "responseElements": null
+    },
+    {
+      "eventTime": "2026-07-10T01:19:31Z",
+      "eventName": "CreateUser",
+      "eventSource": "iam.amazonaws.com",
+      "userIdentity": {
+        "type": "IAMUser",
+        "userName": "medvitals-backup-user",
+        "arn": "arn:aws:iam::123456789012:user/medvitals-backup-user"
+      },
+      "sourceIPAddress": "91.108.56.177",
+      "userAgent": "Boto3/1.26.0 Python/3.10.0",
+      "requestParameters": {
+        "userName": "medvitals-support-svc"
+      },
+      "responseElements": {
+        "user": {
+          "userName": "medvitals-support-svc",
+          "userId": "AIDANEWBACKDOOR001",
+          "arn": "arn:aws:iam::123456789012:user/medvitals-support-svc",
+          "createDate": "2026-07-10T01:19:31Z"
+        }
+      }
+    },
+    {
+      "eventTime": "2026-07-10T01:26:58Z",
+      "eventName": "AttachUserPolicy",
+      "eventSource": "iam.amazonaws.com",
+      "userIdentity": {
+        "type": "IAMUser",
+        "userName": "medvitals-backup-user",
+        "arn": "arn:aws:iam::123456789012:user/medvitals-backup-user"
+      },
+      "sourceIPAddress": "91.108.56.177",
+      "userAgent": "Boto3/1.26.0 Python/3.10.0",
+      "requestParameters": {
+        "userName": "medvitals-support-svc",
+        "policyArn": "arn:aws:iam::aws:policy/AdministratorAccess"
+      },
+      "responseElements": null
+    }
+  ]
+}
