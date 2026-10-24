@@ -1,0 +1,51 @@
+{
+  "manifest_version": "1.4",
+  "last_updated": "2024-10-01",
+  "approved_sources": [
+    {
+      "source_id": "novapay_internal_txn",
+      "description": "NovaPay internal transaction history",
+      "type": "internal",
+      "date_range": "2021-01-01 to present",
+      "validation_status": "approved",
+      "hash_verified": true,
+      "schema_enforced": true,
+      "bias_review_completed": true,
+      "notes": "Primary training source. Reviewed at v2.1.0."
+    },
+    {
+      "source_id": "crc_bureau_v3",
+      "description": "CRC Credit Bureau — Nigeria",
+      "type": "partner_bureau",
+      "date_range": "2022-06-01 to present",
+      "validation_status": "approved",
+      "hash_verified": true,
+      "schema_enforced": true,
+      "bias_review_completed": true,
+      "notes": "Reviewed and approved at v2.2.0."
+    },
+    {
+      "source_id": "xds_bureau_v2",
+      "description": "XDS Credit Bureau — West Africa",
+      "type": "partner_bureau",
+      "date_range": "2023-01-01 to present",
+      "validation_status": "approved",
+      "hash_verified": true,
+      "schema_enforced": true,
+      "bias_review_completed": false,
+      "notes": "Approved for use. Bias review pending — not yet completed."
+    },
+    {
+      "source_id": "bureau_data_external_v2",
+      "description": "External supplementary bureau dataset — West Africa regional",
+      "type": "external",
+      "date_range": "2019-01-01 to 2023-12-31",
+      "validation_status": "unreviewed",
+      "hash_verified": false,
+      "schema_enforced": false,
+      "bias_review_completed": false,
+      "notes": "Sourced from third-party data vendor. Added to pipeline config for supplementary coverage in underserved postcode regions. Formal review not yet scheduled."
+    }
+  ],
+  "pipeline_config_reference": "data/pipeline_config.yaml"
+}

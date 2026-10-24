@@ -1,0 +1,140 @@
+openapi: "3.0.3"
+info:
+  title: NovaPay Credit Scoring API
+  version: "1.2.0"
+  description: |
+    API for enterprise clients to submit loan applications and retrieve
+    credit scoring decisions from the NovaPay AI engine.
+
+    Authentication: Bearer JWT (issued per enterprise client)
+
+servers:
+  - url: https://api.novapay.africa/v1
+
+paths:
+
+  /score:
+    post:
+      summary: Submit a loan application for credit scoring
+      description: |
+        Submit an applicant profile and receive a credit score and decision.
+
+        The `tenant_id` field identifies which enterprise client is making
+        the request. This must match the authenticated client's identity.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScoringRequest'
+            example:
+              tenant_id: "zenith_credit_partners"
+              applicant_id: "APL-00423"
+              postcode_region: "LAG-SW"
+              business_category: "retail"
+              transaction_volume_90d: 1450000
+              prior_applications: 2
+      responses:
+        "200":
+          description: Scoring decision returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScoringResponse'
+        "401":
+          description: Unauthorised — invalid or missing JWT
+        "429":
+          description: Rate limit exceeded
+
+  /score/{applicant_id}:
+    get:
+      summary: Retrieve a previously scored application
+      description: |
+        Retrieve the scoring result for a previously submitted application.
+
+        The `tenant_id` is passed as a query parameter to identify which
+        client's records to search.
+      parameters:
+        - name: applicant_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: tenant_id
+          in: query
+          required: true
+          schema:
+            type: string
+          description: The enterprise client identifier.
+      responses:
+        "200":
+          description: Scoring record retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScoringResponse'
+        "404":
+          description: Application not found
+
+components:
+  schemas:
+
+    ScoringRequest:
+      type: object
+      required:
+        - tenant_id
+        - applicant_id
+        - postcode_region
+        - business_category
+        - transaction_volume_90d
+      properties:
+        tenant_id:
+          type: string
+          description: |
+            Enterprise client identifier. Passed in request body.
+            Used to route the request and tag the scoring record.
+        applicant_id:
+          type: string
+        postcode_region:
+          type: string
+        business_category:
+          type: string
+        transaction_volume_90d:
+          type: number
+          format: float
+        prior_applications:
+          type: integer
+          default: 0
+
+    ScoringResponse:
+      type: object
+      properties:
+        tenant_id:
+          type: string
+        applicant_id:
+          type: string
+        score:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 100
+        decision:
+          type: string
+          enum: [APPROVE, DECLINE, REVIEW]
+        confidence:
+          type: number
+          format: float
+        model_version:
+          type: string
+        scored_at:
+          type: string
+          format: date-time
+
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - BearerAuth: []

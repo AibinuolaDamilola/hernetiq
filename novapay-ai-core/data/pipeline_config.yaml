@@ -1,0 +1,51 @@
+# NovaPay Data Ingestion Pipeline Config
+# Controls which data sources are loaded during each pipeline run
+# Last modified: see git log
+
+pipeline:
+  name: novapay_training_pipeline
+  schedule: weekly
+  output_bucket: gs://novapay-training-data/processed/
+
+data_sources:
+
+  - source_id: novapay_internal_txn
+    enabled: true
+    type: internal
+    location: gs://novapay-training-data/raw/internal/
+    schema_validation: true
+    schema_file: schemas/internal_txn_schema.json
+
+  - source_id: crc_bureau_v3
+    enabled: true
+    type: partner_bureau
+    location: gs://novapay-training-data/raw/bureau/crc/
+    schema_validation: true
+    schema_file: schemas/bureau_v3_schema.json
+
+  - source_id: xds_bureau_v2
+    enabled: true
+    type: partner_bureau
+    location: gs://novapay-training-data/raw/bureau/xds/
+    schema_validation: true
+    schema_file: schemas/bureau_v2_schema.json
+
+  - source_id: bureau_data_external_v2
+    enabled: true
+    type: external
+    location: https://data-feeds.external-vendor.io/west-africa/bureau/v2/
+    # schema_validation: false  ← not configured for external sources
+    # hash_verification: false  ← not configured
+    notes: >
+      Supplementary coverage for underserved postcode regions.
+      Added to pipeline config to improve regional coverage.
+      Formal data review not yet scheduled.
+
+preprocessing:
+  drop_nulls: true
+  normalize_scores: true
+  # outlier_removal: not configured
+
+logging:
+  level: INFO
+  destination: gs://novapay-logs/pipeline/
